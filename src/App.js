@@ -22,7 +22,7 @@ function App() {
                 <Route path="/contact">
                     <h1>Contact Me</h1>
                 </Route>
-                <Route path="/home">
+                <Route path="https://akhosravi7.github.io/My-Website/home">
                     <Home />
                 </Route>
                 <Route path="/films">
