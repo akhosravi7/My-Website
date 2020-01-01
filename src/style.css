@@ -1,0 +1,59 @@
+body {
+    background-color: whitesmoke;
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.resume {
+  padding-right: 12% !important;
+  padding-top: 5%;
+  background-color: white;
+}
+
+.home {
+  height: 50% !important;
+}
+
+.app {
+    background-color: white;
+    margin: auto;
+    width: 50%;
+    flex-direction: column;
+    align-content: center;
+    color: black;
+    font-family: Roboto, sans-serif;
+    text-align: center;
+    border: 1px solid #efefef;
+    padding: 30;
+    box-shadow:
+        0 1px 1px rgba(0,0,0,.15),
+        0 10px 0 -5px #eee,
+        0 10px 1px -4px rgba(0,0,0,.15)
+    ;
+}
+
+.checkboxes label {
+    display: inline-block;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 3%;
+    border-bottom: 1px solid grey;
+    padding-bottom: 3%;
+    width: 90%;
+  }
+.checkboxes input {
+    vertical-align: middle;
+  }
+.checkboxes label span {
+    vertical-align: middle;
+  }
+
+.answer {
+    background-color: white;
+}
