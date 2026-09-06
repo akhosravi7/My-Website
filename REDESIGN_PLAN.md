@@ -1,63 +1,48 @@
-# Website Redesign — Implementation Plan
+# Redesign Log (September 2026)
 
-## Problem
+Record of the site redesign. For how to run/edit/deploy, see `README.md`.
 
-The site looked dated and unpolished:
+## What was wrong
 
-- Hero images had **text burned into the photos** (uneditable, inaccessible, blurry).
-- Photos were old and low quality; the "resume" was a **photo of a printed 2019 resume** (stale dates, old address/phone).
-- 47MB of `.psd` source files were committed to the repo.
-- Contact page was a stub (`<h1>Contact Me</h1>`).
-- Nav contained a **dead search box** with no handler.
-- Films/Music pages were Bootstrap placeholder cards (same YouTube thumbnail repeated, "Card Title" sample text).
-- No design system: default Bootstrap look, no palette, no typography scale, no footer.
-- Dead CSS (`.app`, `.blue`, `.red`, `.checkboxes`, `.answer`) and unused heavy deps (`react-pdf`, `pdf`).
+- Hero images had **text baked into the photos** (WELCOME! + bio on a beach selfie; an internship pitch on a graduation portrait).
+- "Resume" was a photo of a printed **2019-era resume** (stale dates, old address/phone).
+- 47MB of `.psd` sources committed to the repo.
+- Contact page was an `<h1>` stub; nav had a dead search box; Films/Music were Bootstrap placeholder cards (same thumbnail repeated, sample text).
+- No design system, no footer, emoji brand, default CRA logo/favicon, dead CSS (`.app`, `.blue`, `.red`, `.checkboxes`, `.answer`), unused `react-pdf`/`pdf` deps.
 
-## Design Direction
+## What changed
 
-- **Modern, minimal portfolio**: one accent color (blue), generous whitespace, Inter typeface.
-- Light/dark mode via CSS variables (kept, but made consistent).
-- Always-dark navbar with a text wordmark (replaces the 👨‍💻 emoji).
-- Consistent `PageHeader` + `Footer` on every route.
-- **Resume page now features the LinkedIn profile** (linkedin.com/in/ali-khosravi-devops) instead of the outdated scan. LinkedIn blocks iframe embedding (`X-Frame-Options: deny`), so this is a polished profile card + "View on LinkedIn" CTA — the professional standard — not a literal embed.
-- Data-driven Films/Music pages (content in `src/data/`, easy to extend).
-- All text lives in HTML — never baked into images.
+**Assets**
+- Extracted the original text-free photos from `Beach.psd`/`Suit.psd` (psd-tools, "Background" layer), cropped to portraits, recompressed → `src/assets/portrait.jpg`, `src/assets/about.jpg`.
+- Deleted `Beach.jpg`, `Suit.JPG`, `AKRESUME.jpg`, both `.psd` files; `*.psd` added to `.gitignore`.
 
-## Action List
+**Pages**
+- `Home`: carousel → hero (name, headline, CTAs, framed portrait) + About section + "What I do" cards.
+- `Resume`: rebuilt around the **LinkedIn profile** (linkedin.com/in/ali-khosravi-devops) — profile card with CTA, plus CKA / Georgia Tech / focus / elsewhere cards. LinkedIn blocks iframe embedding, so this is a card + link, not an embed.
+- `Contact`: new page (LinkedIn / email / YouTube cards).
+- `Films`: data-driven grid, click-to-play YouTube embeds. First real entry: "Tip" (TSA Nationals 2013, 1st Place, channel @ALIKFILMS1).
+- `Music`: data-driven grid with a clean empty state (no tracks known yet).
+- `NotFound`: 404 route for unknown URLs.
+- Nav: removed dead search box, router `Link`s (active state via NavLink), text wordmark instead of 👨‍💻 emoji, SVG moon/sun theme toggle.
 
-### P0 — Images & Resume (✅ done)
-- [x] Extracted original photos from the `.psd` files (clean "Background" layers, no text) using `psd-tools`.
-- [x] Cropped + recompressed to `src/assets/portrait.jpg` (formal, hero) and `src/assets/about.jpg` (casual, about section).
-- [x] Resume rebuilt as a real page featuring the LinkedIn profile (headline, CTA) + CKA certification card. Old scan and generated PDF deleted.
-- [x] Removed `Beach.psd`, `Suit.psd`, `AKRESUME.jpg`, `Beach.jpg`, `Suit.JPG` from the repo; `*.psd` added to `.gitignore`.
+**Design system** (`src/style.css`)
+- CSS variable tokens for light/dark (bg, surface, text, muted, border, accent, shadow, radius); Bootstrap's `--bs-primary`/`--bs-body-*`/link variables mapped onto them so all Bootstrap components theme correctly.
+- Inter font (Google Fonts, in `public/index.html`), consistent eyebrow/title/section rhythm, `PageHeader` + `Footer` on every route.
+- New "AK" monogram logo (logo192/512) and favicon, replacing the CRA React atom.
 
-### P1 — Layout & Structure
-- [x] Home: replaced carousel with a proper hero (name, headline, CTA buttons, portrait in framed card) + About section + Explore cards.
-- [x] Contact: real page — LinkedIn (primary), email, YouTube; removed stub.
-- [x] Removed dead search box from the nav; nav uses router `Link`s (no full page reloads).
-- [x] Design system in `src/style.css`: CSS variables for both themes, Inter font, spacing, card/button styles.
-- [x] Added `PageHeader` and `Footer` components, applied site-wide.
-- [x] Replaced emoji brand with text wordmark.
-- [x] Deleted all dead CSS.
+**Plumbing**
+- `useTheme`: lazy-init from `localStorage` (no light-theme flash on load).
+- `public/index.html`: real title/description, Open Graph tags, theme-color.
+- Removed `react-pdf` + `pdf` deps and the `postinstall` pdf.worker copy; `public/pdf.worker.min.js` deleted.
+- `gh-pages` 2.1.1 → ^6.
+- Fixed dark-mode bug: Bootstrap's `body{background-color:var(--bs-body-bg)}` (loaded after style.css) overrode the themed background — now `--bs-body-bg: var(--bg)` is set in both token blocks.
 
-### P2 — Content & Consistency
-- [x] Films: data-driven grid (`src/data/films.js`) with click-to-play YouTube embeds. First entry: "Tip" (TSA Nationals 2013, 1st Place, ALK FILMS).
-- [x] Music: same data-driven structure (`src/data/music.js`) with a clean empty state — **add tracks there**.
-- [x] Dark mode: consistent theming for all components; `useTheme` lazy-initializes from `localStorage` (no flash).
-- [x] Added 404 route for unknown URLs.
-- [x] SEO: real `<title>`, meta description, Open Graph tags in `public/index.html`.
-
-### P3 — Cleanup & Polish
-- [x] Removed unused deps `react-pdf` + `pdf` and the `postinstall` pdf.worker copy; removed `public/pdf.worker.min.js`.
-- [x] `gh-pages` 2.1.1 → ^6 (2019-era package).
-- [x] `loading="lazy"` on content images.
-- [x] `npm run build` passes clean.
+**Verified**: `npm run build` clean (70KB JS / 33KB CSS gzip); all five routes + dark mode visually checked via headless Chrome screenshots.
 
 ## Needs Your Input
 
-1. **Films**: add more entries to `src/data/films.js` (title, description, year, YouTube `videoId`).
-2. **Music**: add tracks to `src/data/music.js` — what format (YouTube audio, SoundCloud, Spotify link)?
-3. **Email**: `alikhosravi1000@gmail.com` is from the old resume — update in `src/data/profile.js` if stale.
-4. **GitHub / other links**: add to `src/data/profile.js` if you want them in the footer/contact.
-5. **Favicon**: still the CRA default; consider a personal monogram.
-6. **Hosting note**: `BrowserRouter` + GitHub Pages 404s on deep-link refresh. If this bites, add a `404.html` copy trick or switch to `HashRouter`.
+1. **Films**: add entries to `src/data/films.js` (title, description, year, YouTube `videoId`).
+2. **Music**: add tracks to `src/data/music.js` — what source (YouTube, SoundCloud, Spotify)?
+3. **Email**: `alikhosravi1000@gmail.com` comes from the old resume — confirm or update in `src/data/profile.js`.
+4. **GitHub** (and anything else) → add to `src/data/profile.js` + `Footer.js`.
+5. **Hosting**: if GitHub Pages deep-link refreshes 404, see `README.md` → Known caveats (HashRouter or 404.html trick).

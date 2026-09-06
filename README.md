@@ -1,100 +1,67 @@
-# Personal Website - React Implementation
+# Ali Khosravi — Personal Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Portfolio site for Ali Khosravi (AI DevOps Lead at Pienso, filmmaker/musician as "ALK FILMS"). React SPA deployed to GitHub Pages.
 
-## Project Overview
+## Commands
 
-This is a responsive personal website built with React and Bootstrap. The implementation includes modern web development practices with a focus on accessibility, responsive design, and user experience.
+| Command | Purpose |
+| --- | --- |
+| `npm start` | Dev server on :3000 |
+| `npm run build` | Production build to `build/` (run this before committing changes) |
+| `npm run deploy` | Publish `build/` to the `gh-pages` branch |
 
-## Completed Features
+`package.json` sets `"homepage": "."` so all asset paths are relative — required for GitHub Pages.
 
-### Responsive Design
-- All components now use Bootstrap's responsive grid system (xs, sm, md, lg)
-- Proper container and row/column structures for adaptive layouts
-- Mobile-first approach with appropriate breakpoints
+## Project structure
 
-### Accessibility Enhancements
-- Added proper ARIA attributes (role="navigation", aria-label, etc.)
-- Semantic HTML structure with proper heading hierarchy
-- Keyboard navigable elements
-- Descriptive alt text for all images
+```
+src/
+  App.js              Routes + layout shell (nav, main, footer, scroll-to-top)
+  style.css           All design tokens (CSS vars) + component styles — the "design system"
+  data/
+    profile.js        Name, headline, location, LinkedIn/YouTube/email, skills ← edit identity here
+    films.js          Film cards (title, description, year, YouTube videoId) ← add films here
+    music.js          Track cards (title, description, url) ← add tracks here
+  components/
+    Home.js           Hero + about + "what I do" cards
+    Resume.js         LinkedIn profile card + CKA/education/focus highlight cards
+    Films.js          Data-driven grid with click-to-play YouTube embeds
+    Music.js          Data-driven grid (empty state until tracks are added)
+    Contact.js        LinkedIn / email / YouTube cards
+    NavigationMenu.js Always-dark fixed navbar, theme toggle (no search)
+    Footer.js         Brand + page links + social links
+    PageHeader.js     Shared page title block (eyebrow + h1 + subtitle)
+    NotFound.js       404 route
+  assets/
+    portrait.jpg      Formal portrait (hero) — extracted from Suit.psd
+    about.jpg         Casual photo (about section) — extracted from Beach.psd
+  hooks/
+    useTheme.js       Light/dark theme, persisted in localStorage ("theme"),
+                      applied via <body data-theme="dark">
+public/               index.html (SEO/OG/Inter font), favicon + logo (AK monogram), manifest
+```
 
-### Dark/Light Mode Implementation
-- Custom `useTheme` hook for centralized theme management
-- localStorage persistence for user preference
-- Theme toggle button in navigation with proper icons
-- CSS variables and data attributes for smooth theme transitions
-- Proper dark mode styling for all components
+## How to make content changes
 
-### UI/UX Improvements
-- Navigation bar enhancements with proper spacing and visual hierarchy
-- Updated brand identity with emoji icon instead of text
-- Consistent design language across all pages
-- Proper responsive behavior for all screen sizes
+- **Identity/links/skills** → `src/data/profile.js` (single source of truth for nav, footer, resume, contact).
+- **Add a film** → append to `src/data/films.js`; `videoId` is the part after `watch?v=` in a YouTube URL. Thumbnails and embeds are generated from it.
+- **Add a track** → append to `src/data/music.js` (any link: YouTube, SoundCloud, Spotify).
+- **Photos** → replace files in `src/assets/`; keep them ≤ ~1200px wide, JPEG quality ~85. Never bake text into images.
+- **Styling** → tweak CSS variables at the top of `src/style.css` (`:root` = light, `body[data-theme="dark"]` = dark). Bootstrap is imported in `src/index.js` *after* style.css, so Bootstrap wins on conflicts — that's why theme-aware `--bs-*` variables are set in both token blocks (see `--bs-body-bg`).
 
-## Available Scripts
+## Design decisions (why it's built this way)
 
-In the project directory, you can run:
+- **Bootstrap 5 + react-bootstrap** kept (not migrated to Tailwind) — grid/nav/buttons come from it; visual identity comes entirely from CSS variables in `style.css`.
+- **Resume page features LinkedIn** (linkedin.com/in/ali-khosravi-devops) instead of a resume file. LinkedIn blocks iframes (`X-Frame-Options: deny`), so it's a profile card + CTA — do not try to iframe it.
+- **Always-dark navbar** in both themes; content area follows the theme.
+- **Text is always HTML** (old version had text baked into JPGs).
 
-### `npm start`
+## Known caveats
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **GitHub Pages deep links**: `BrowserRouter` means refreshing on `/resume` 404s on GitHub Pages (only `/` and `/home` resolve server-side). If this matters, switch to `HashRouter` in `src/App.js` or add a `404.html` copy of `index.html` to `build/` via a postbuild script.
+- **Images are bundled** via webpack `import` from `src/assets` — that's intentional (hashed filenames, tree-shaken).
+- `logo192.png`/`logo512.png`/`favicon.ico` are generated "AK" monograms (dark navy + blue), replaceable.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Open items
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+See `REDESIGN_PLAN.md` → "Needs Your Input" (add more films/music, confirm email, optional GitHub link).
