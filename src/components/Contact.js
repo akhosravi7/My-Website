@@ -28,6 +28,14 @@ function YoutubeIcon() {
   );
 }
 
+function SoundcloudIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M1.173 12.31c-.041 0-.066.026-.066.066v2.434c0 .04.025.066.066.066h2.521c.025 0 .05-.026.05-.066v-2.434c0-.04-.025-.066-.05-.066zm2.778-1.617c-.042 0-.067.033-.067.066v4.117c0 .041.025.066.067.066h.87c.041 0 .066-.025.066-.066v-4.117c0-.033-.025-.066-.066-.066zm1.756-1.32c-.042 0-.074.04-.074.073v5.438c0 .04.032.066.074.066h.856c.041 0 .066-.026.066-.066V9.445c0-.034-.025-.074-.066-.074zm1.756-1.6c-.042 0-.066.033-.066.066v7.047c0 .034.024.05.066.05h.848c.033 0 .058-.016.058-.05V7.84c0-.033-.025-.066-.058-.066zm1.74 1.049c-.042 0-.05.04-.05.073v6.125c0 .034.008.05.05.05h.856c.033 0 .05-.016.05-.05V9.43c0-.033-.017-.074-.05-.074zm1.674-.774c-.041 0-.058.033-.058.066v6.813c0 .033.017.066.058.066h6.338c.158.35.416.642.733.85.55.349 1.175.524 1.808.524 1.885 0 3.417-1.515 3.417-3.383 0-1.858-1.533-3.374-3.417-3.374-.633 0-1.258.175-1.808.524-.317.208-.575.5-.733.85H13.34z" />
+    </svg>
+  );
+}
+
 const methods = [
   {
     title: "LinkedIn",
@@ -54,6 +62,14 @@ const methods = [
     external: true,
     icon: <YoutubeIcon />,
   },
+  {
+    title: "SoundCloud",
+    text: "Music and audio projects from ALK FILMS, hosted here.",
+    cta: "Listen on SoundCloud",
+    href: profile.soundcloud,
+    external: true,
+    icon: <SoundcloudIcon />,
+  },
 ];
 
 function Contact() {
@@ -66,7 +82,7 @@ function Contact() {
       />
       <Row className="g-4">
         {methods.map((method) => (
-          <Col md={4} key={method.title}>
+          <Col md={6} key={method.title}>
             <div className={`surface-card p-4 h-100 d-flex flex-column ${method.primary ? "card-primary-ring" : ""}`}>
               <div className="icon-circle mb-3">{method.icon}</div>
               <h3 className="h5 fw-bold mb-2">{method.title}</h3>

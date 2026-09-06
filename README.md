@@ -19,9 +19,9 @@ src/
   App.js              Routes + layout shell (nav, main, footer, scroll-to-top)
   style.css           All design tokens (CSS vars) + component styles — the "design system"
   data/
-    profile.js        Name, headline, location, LinkedIn/YouTube/email, skills ← edit identity here
+    profile.js        Name, headline, location, all links (LinkedIn/YouTube/SoundCloud/email), ← identity
     films.js          Film cards (title, description, year, YouTube videoId) ← add films here
-    music.js          Track cards (title, description, url) ← add tracks here
+    music.js          Track cards (title, description, url) + SoundCloud/YouTube channel links
   components/
     Home.js           Hero + about + "what I do" cards
     Resume.js         LinkedIn profile card + CKA/education/focus highlight cards
@@ -33,8 +33,8 @@ src/
     PageHeader.js     Shared page title block (eyebrow + h1 + subtitle)
     NotFound.js       404 route
   assets/
-    portrait.jpg      Formal portrait (hero) — extracted from Suit.psd
-    about.jpg         Casual photo (about section) — extracted from Beach.psd
+    portrait.jpg      Formal headshot (hero) — cropped from prof.png
+    resume.pdf        Resume — downloadable on the Resume page
   hooks/
     useTheme.js       Light/dark theme, persisted in localStorage ("theme"),
                       applied via <body data-theme="dark">
@@ -52,7 +52,7 @@ public/               index.html (SEO/OG/Inter font), favicon + logo (AK monogra
 ## Design decisions (why it's built this way)
 
 - **Bootstrap 5 + react-bootstrap** kept (not migrated to Tailwind) — grid/nav/buttons come from it; visual identity comes entirely from CSS variables in `style.css`.
-- **Resume page features LinkedIn** (linkedin.com/in/ali-khosravi-devops) instead of a resume file. LinkedIn blocks iframes (`X-Frame-Options: deny`), so it's a profile card + CTA — do not try to iframe it.
+- **Resume page features LinkedIn** (linkedin.com/in/ali-khosravi-devops) plus a downloadable `src/assets/resume.pdf`. LinkedIn blocks iframes (`X-Frame-Options: deny`), so it's a profile card + CTA — do not try to iframe it.
 - **Always-dark navbar** in both themes; content area follows the theme.
 - **Text is always HTML** (old version had text baked into JPGs).
 

@@ -39,6 +39,9 @@ function Footer() {
             <a className="footer-link" href={profile.youtube} target="_blank" rel="noreferrer">
               YouTube — ALK FILMS
             </a>
+            <a className="footer-link" href={profile.soundcloud} target="_blank" rel="noreferrer">
+              SoundCloud
+            </a>
             <a className="footer-link" href={`mailto:${profile.email}`}>
               Email
             </a>

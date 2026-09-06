@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import PageHeader from "./PageHeader";
 import { tracks, musicChannel } from "../data/music";
+import { profile } from "../data/profile";
 
 function NoteIcon() {
   return (
@@ -44,17 +45,28 @@ function Music() {
           </div>
           <h2 className="h4 fw-bold mb-2">Tracks are on the way</h2>
           <p className="text-secondary mb-4" style={{ maxWidth: "45ch", margin: "0 auto 1.5rem" }}>
-            Original music and audio work are in progress. In the meantime, the
-            ALK FILMS channel has the latest releases.
+            Original music and audio work are in progress. In the meantime, you
+            can hear what I'm working on on the ALK FILMS YouTube channel or my
+            SoundCloud.
           </p>
-          <a
-            className="btn btn-primary px-4"
-            href={musicChannel}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Visit the channel
-          </a>
+          <div className="d-flex flex-wrap justify-content-center gap-2">
+            <a
+              className="btn btn-primary px-4"
+              href={musicChannel}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Visit the YouTube channel
+            </a>
+            <a
+              className="btn btn-ghost px-4"
+              href={profile.soundcloud}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Listen on SoundCloud
+            </a>
+          </div>
         </div>
       )}
     </Container>

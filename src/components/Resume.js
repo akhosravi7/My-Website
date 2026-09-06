@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import PageHeader from "./PageHeader";
 import { profile } from "../data/profile";
+import resumePdf from "../assets/resume.pdf";
 
 function AwardIcon() {
   return (
@@ -29,13 +30,21 @@ function FocusIcon() {
   );
 }
 
+function DownloadIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />
+    </svg>
+  );
+}
+
 function Resume() {
   return (
     <Container>
       <PageHeader
         eyebrow="Resume"
         title="Work & profile"
-        subtitle="My full history lives on LinkedIn — the snapshot below keeps the highlights."
+        subtitle="My full history lives on LinkedIn — the snapshot below keeps the highlights, and the latest resume is available to download."
       />
 
       <Row className="gy-4">
@@ -45,21 +54,31 @@ function Resume() {
               <div className="linkedin-badge" aria-hidden="true">
                 in
               </div>
-              <div>
+              <div className="flex-grow-1">
                 <h2 className="h4 fw-bold mb-1">{profile.name}</h2>
                 <div className="fw-semibold mb-1">{profile.headline}</div>
-                <div className="text-secondary small mb-3">
-                  {profile.location}
-                </div>
+                <div className="text-secondary small mb-3">{profile.location}</div>
                 <p className="text-secondary mb-4">{profile.intro}</p>
-                <a
-                  className="btn btn-primary px-4"
-                  href={profile.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View full profile on LinkedIn
-                </a>
+                <div className="d-flex flex-wrap gap-2">
+                  <a
+                    className="btn btn-primary px-4"
+                    href={profile.linkedin}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View full profile on LinkedIn
+                  </a>
+                  <a
+                    className="btn btn-ghost px-4"
+                    href={resumePdf}
+                    download="Ali-Khosravi-Resume.pdf"
+                  >
+                    <span className="me-2 d-inline-flex align-items-center">
+                      <DownloadIcon />
+                    </span>
+                    Download resume (PDF)
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -69,21 +88,50 @@ function Resume() {
             <div className="icon-circle mb-3" style={{ width: 44, height: 44 }}>
               <AwardIcon />
             </div>
-            <div className="eyebrow mb-2">Certification</div>
-            <h3 className="h5 fw-bold mb-1">CKA</h3>
-            <p className="text-secondary mb-0">
-              Certified Kubernetes Administrator — The Linux Foundation
-            </p>
+            <div className="eyebrow mb-2">Certifications</div>
+            <ul className="cert-list">
+              {profile.certifications.map((cert) => (
+                <li key={cert}>{cert}</li>
+              ))}
+            </ul>
           </div>
         </Col>
+      </Row>
+
+      <section className="section">
+        <div className="eyebrow mb-2">Experience</div>
+        <h2 className="section-title">Where I've worked</h2>
+        <div className="job-stack">
+          {profile.experience.map((job) => (
+            <div className="surface-card p-4 p-md-4" key={`${job.company}-${job.title}`}>
+              <div className="d-flex flex-wrap justify-content-between gap-1 mb-2">
+                <div>
+                  <h3 className="h5 fw-bold mb-0">{job.title}</h3>
+                  <div className="fw-semibold text-secondary small">{job.company}</div>
+                </div>
+                <div className="text-secondary small align-self-start">{job.period}</div>
+              </div>
+              <ul className="job-points">
+                {job.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Row className="gy-4">
         <Col md={6} lg={4}>
           <div className="surface-card p-4 h-100">
             <div className="icon-circle mb-3" style={{ width: 44, height: 44 }}>
               <SchoolIcon />
             </div>
             <div className="eyebrow mb-2">Education</div>
-            <h3 className="h5 fw-bold mb-1">Georgia Tech</h3>
-            <p className="text-secondary mb-0">B.S. in Computer Science</p>
+            <h3 className="h5 fw-bold mb-1">{profile.education.school}</h3>
+            <p className="text-secondary mb-0">
+              {profile.education.degree} · {profile.education.years} · {profile.education.gpa}
+            </p>
           </div>
         </Col>
         <Col md={6} lg={4}>
@@ -121,6 +169,14 @@ function Resume() {
                 rel="noreferrer"
               >
                 YouTube
+              </a>
+              <a
+                className="btn btn-ghost btn-sm"
+                href={profile.soundcloud}
+                target="_blank"
+                rel="noreferrer"
+              >
+                SoundCloud
               </a>
               <a className="btn btn-ghost btn-sm" href={`mailto:${profile.email}`}>
                 Email

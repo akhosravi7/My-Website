@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import portrait from "../assets/portrait.jpg";
-import aboutImg from "../assets/about.jpg";
 import { profile } from "../data/profile";
 import { filmsChannel } from "../data/films";
 
@@ -86,33 +85,23 @@ function Home() {
       </section>
 
       <section className="section">
-        <Row className="align-items-center gy-4">
-          <Col md={5}>
-            <img
-              className="about-photo"
-              src={aboutImg}
-              alt="Ali Khosravi on the beach"
-              loading="lazy"
-            />
-          </Col>
-          <Col md={7}>
-            <div className="eyebrow mb-2">About</div>
-            <h2 className="section-title">Developer by day, creator by night</h2>
-            <p className="text-secondary mb-4">
-              I build and run Kubernetes-based AI infrastructure — the
-              pipelines, clusters, and model serving that keep AI products in
-              production. Off the clock I make short films and music, with one
-              film honored at the Cannes Film Festival.
-            </p>
-            <div className="d-flex flex-wrap gap-2">
-              {profile.focus.map((item) => (
-                <span className="chip" key={item}>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </Col>
-        </Row>
+        <div className="about-block">
+          <div className="eyebrow mb-2">About</div>
+          <h2 className="section-title">Developer by day, creator by night</h2>
+          <p className="text-secondary mb-4">
+            I build and run Kubernetes-based AI infrastructure — the pipelines,
+            clusters, and model serving that keep AI products in production.
+            Off the clock I make short films and music, with one film honored
+            at the Cannes Film Festival.
+          </p>
+          <div className="d-flex flex-wrap gap-2 justify-content-center">
+            {profile.focus.map((item) => (
+              <span className="chip" key={item}>
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="section">

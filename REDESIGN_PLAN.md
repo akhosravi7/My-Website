@@ -42,7 +42,7 @@ Record of the site redesign. For how to run/edit/deploy, see `README.md`.
 ## Needs Your Input
 
 1. **Films**: add entries to `src/data/films.js` (title, description, year, YouTube `videoId`).
-2. **Music**: add tracks to `src/data/music.js` — what source (YouTube, SoundCloud, Spotify)?
-3. **Email**: `alikhosravi1000@gmail.com` comes from the old resume — confirm or update in `src/data/profile.js`.
+2. **Music**: SoundCloud is `https://soundcloud.com/thebigtomat` (added to profile + Contact/Resume/Footer/Music). Add specific tracks to `src/data/music.js` when ready.
+3. **Email**: `alikhosravi1000@gmail.com` confirmed (matches current resume).
 4. **GitHub** (and anything else) → add to `src/data/profile.js` + `Footer.js`.
 5. **Hosting**: if GitHub Pages deep-link refreshes 404, see `README.md` → Known caveats (HashRouter or 404.html trick).
