@@ -1,11 +1,11 @@
 import React from "react"
 import NavigationMenu from "./components/NavigationMenu"
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
-  } from "react-router-dom"
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate
+} from "react-router-dom"
 import Home from "./components/Home"
 import Resume from "./components/Resume"
 import Films from "./components/Films"
@@ -15,24 +15,14 @@ function App() {
     return (
         <Router>
             <NavigationMenu />
-            <Switch>
-                <Route path="/resume">
-                    <Resume />
-                </Route>
-                <Route path="/contact">
-                    <h1>Contact Me</h1>
-                </Route>
-                <Route path="https://akhosravi7.github.io/My-Website/home">
-                    <Home />
-                </Route>
-                <Route path="/films">
-                    <Films />
-                </Route>
-                <Route path="/music">
-                    <Music />
-                </Route>
-                <Redirect exact from="/" to="/home" />
-            </Switch>
+            <Routes>
+                <Route path="/resume" element={<Resume />} />
+                <Route path="/contact" element={<h1>Contact Me</h1>} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/films" element={<Films />} />
+                <Route path="/music" element={<Music />} />
+                <Route path="/" element={<Navigate to="/home" replace />} />
+            </Routes>
         </Router>
     )
 }

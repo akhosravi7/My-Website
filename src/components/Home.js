@@ -1,6 +1,5 @@
 import React from 'react'
-import Carousel from 'react-bootstrap/Carousel'
-import "C:/Users/Ali Khosravi/nodejstutorial/my-app/src/style.css"
+import { Carousel } from 'react-bootstrap'
 
 function Home() {
     return (
@@ -8,11 +7,10 @@ function Home() {
             <Carousel style={{height:'50%'}}>
                 <Carousel.Item style={{height:'50%'}}>
                     <img
-                        title="d-block w-100"
+                        className="d-block w-100"
                         src={require('./Beach.jpg')}
                         alt="First slide"
-                        width="100%"
-                        height="50%"
+                        style={{height:'50%', objectFit:'cover'}}
                     />
                     <Carousel.Caption>
                         <h3>About Me</h3>
@@ -20,11 +18,11 @@ function Home() {
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
-                    className="d-block w-100"
-                    src={require('./Suit.JPG')}
-                    alt="Third slide"
+                        className="d-block w-100"
+                        src={require('./Suit.JPG')}
+                        alt="Third slide"
+                        style={{height:'50%', objectFit:'cover'}}
                     />
-
                     <Carousel.Caption>
                         <h3>Looking for a position!</h3>
                     </Carousel.Caption>

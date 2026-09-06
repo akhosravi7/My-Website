@@ -1,10 +1,9 @@
 import React from "react"
-import Image from "react-bootstrap/Image"
-import "C:/Users/Ali Khosravi/nodejstutorial/my-app/src/style.css"
+import { Image } from "react-bootstrap"
 
 function Resume() {
     return (
-        <Image className = "resume" src={require('./AKRESUME.jpg')} fluid/>
+        <Image className="resume" src={require('./AKRESUME.jpg')} fluid />
     )
 }
 

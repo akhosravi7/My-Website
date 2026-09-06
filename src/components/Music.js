@@ -1,17 +1,19 @@
 import React from "react"
+import { Card } from "react-bootstrap"
 
 function Music() {
     return (
         <div>
-            <iframe width="100%" 
-                height="300" 
-                scrolling="no" 
-                frameborder="no" 
-                allow="autoplay" 
-                title='soundcloud'
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/732223147&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true">
-            </iframe>
-            
+            <Card className="bg-dark text-white mb-3">
+                <Card.Img src="https://img.youtube.com/vi/aymJt8kKmqM/maxresdefault.jpg" alt="Audio thumbnail" />
+                <Card.ImgOverlay>
+                    <Card.Title>My Music Project</Card.Title>
+                    <Card.Text>
+                        Some quick example text to build on the card title and make up the bulk
+                        of the card's content.
+                    </Card.Text>
+                </Card.ImgOverlay>
+            </Card>
         </div>
     )
 }
