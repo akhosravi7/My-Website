@@ -1,44 +1,69 @@
-import React from "react"
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap"
-import { useTheme } from "../hooks/useTheme"
+import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import { useTheme } from "../hooks/useTheme";
+import { profile } from "../data/profile";
 
-function NavigationMenu() {
-    const { theme, toggleTheme } = useTheme();
+const links = [
+  { to: "/home", label: "Home" },
+  { to: "/resume", label: "Resume" },
+  { to: "/films", label: "Films" },
+  { to: "/music", label: "Music" },
+  { to: "/contact", label: "Contact" },
+];
 
-    return (
-        <Navbar bg="dark" variant="dark" expand="lg" fixed="top" role="navigation" className="shadow-sm">
-            <Navbar.Brand href="/home" aria-label="Home page" className="fw-bold d-flex align-items-center">
-                <span className="me-2">👨‍💻</span> Ali Khosravi
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto" role="menubar">
-                    <Nav.Link href="/home" role="menuitem" className="px-3">Home</Nav.Link>
-                    <Nav.Link href="/resume" role="menuitem" className="px-3">Resume</Nav.Link>
-                    <Nav.Link href="/films" role="menuitem" className="px-3">Films</Nav.Link>
-                    <Nav.Link href="/music" role="menuitem" className="px-3">Music</Nav.Link>
-                    <Nav.Link href="/contact" role="menuitem" className="px-3">Contact Me</Nav.Link>
-                </Nav>
-                <Form inline className="d-flex">
-                    <FormControl 
-                        type="text" 
-                        placeholder="Search" 
-                        className="mr-sm-2" 
-                        aria-label="Search" 
-                    />
-                    <Button variant="outline-info" aria-label="Submit search" className="mx-2">Search</Button>
-                    <Button 
-                        variant="outline-light" 
-                        onClick={toggleTheme}
-                        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                        className="rounded-circle mx-1"
-                    >
-                        {theme === 'light' ? '🌙' : '☀️'}
-                    </Button>
-                </Form>
-            </Navbar.Collapse>
-        </Navbar>
-    )
+function MoonIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
 }
 
-export default NavigationMenu
+function SunIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" />
+      <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+    </svg>
+  );
+}
+
+function NavigationMenu() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <Navbar className="site-navbar fixed-top px-3 px-lg-4" expand="lg">
+      <div className="container">
+        <Navbar.Brand as={NavLink} to="/home" className="navbar-brand-wordmark text-decoration-none">
+          {profile.name.split(" ")[0]} {profile.name.split(" ")[1]}
+          <span className="brand-dot">.</span>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="site-nav" />
+        <Navbar.Collapse id="site-nav">
+          <Nav className="ms-auto d-lg-flex align-items-center">
+            {links.map((link) => (
+              <Nav.Item key={link.to}>
+                <Nav.Link as={NavLink} to={link.to} className="nav-pill text-center">
+                  {link.label}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+            <Nav.Item className="ms-lg-2 ms-md-3">
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+              >
+                {theme === "light" ? <MoonIcon /> : <SunIcon />}
+              </button>
+            </Nav.Item>
+          </Nav>
+        </Navbar.Collapse>
+      </div>
+    </Navbar>
+  );
+}
+
+export default NavigationMenu;

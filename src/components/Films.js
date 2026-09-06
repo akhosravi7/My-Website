@@ -1,60 +1,85 @@
-import React from "react"
-import { Card, Container, Row, Col } from "react-bootstrap"
+import React, { useState } from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import PageHeader from "./PageHeader";
+import { films, filmsChannel } from "../data/films";
 
-function Films() {
-    return (
-        <Container fluid className="p-3">
-            <Row>
-                <Col xs={12} md={6} lg={4} className="mb-4">
-                    <Card className="bg-dark text-white h-100">
-                        <Card.Img 
-                            src="https://img.youtube.com/vi/aymJt8kKmqM/maxresdefault.jpg" 
-                            alt="Video thumbnail for My Film Project"
-                            style={{ height: '200px', objectFit: 'cover' }}
-                        />
-                        <Card.ImgOverlay>
-                            <Card.Title>My Film Project</Card.Title>
-                            <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </Card.Text>
-                        </Card.ImgOverlay>
-                    </Card>
-                </Col>
-                <Col xs={12} md={6} lg={4} className="mb-4">
-                    <Card style={{ width: '100%' }} className="h-100">
-                        <Card.Img 
-                            src="https://img.youtube.com/vi/aymJt8kKmqM/maxresdefault.jpg" 
-                            alt="Video thumbnail for Card Title"
-                            style={{ height: '200px', objectFit: 'cover' }}
-                        />
-                        <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col xs={12} md={6} lg={4} className="mb-4">
-                    <Card className="bg-dark text-white h-100">
-                        <Card.Img 
-                            src="https://img.youtube.com/vi/aymJt8kKmqM/maxresdefault.jpg" 
-                            alt="Video thumbnail for Another Project"
-                            style={{ height: '200px', objectFit: 'cover' }}
-                        />
-                        <Card.ImgOverlay>
-                            <Card.Title>Another Project</Card.Title>
-                            <Card.Text>
-                                Additional content for this project.
-                            </Card.Text>
-                        </Card.ImgOverlay>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
-    )
+function PlayIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#101828" aria-hidden="true">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
 }
 
-export default Films
+function FilmCard({ film }) {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <Card className="surface-card border-0 overflow-hidden h-100">
+      {playing ? (
+        <div className="film-embed">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${film.videoId}?autoplay=1`}
+            title={film.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <div className="film-thumb">
+          <img
+            src={`https://i.ytimg.com/vi/${film.videoId}/hqdefault.jpg`}
+            alt={`Thumbnail for ${film.title}`}
+            loading="lazy"
+          />
+          <button
+            type="button"
+            className="play-badge"
+            onClick={() => setPlaying(true)}
+            aria-label={`Play ${film.title}`}
+          >
+            <span>{<PlayIcon />}</span>
+          </button>
+        </div>
+      )}
+      <Card.Body>
+        <Card.Title className="fw-bold">
+          {film.title}{" "}
+          <span className="text-secondary fw-normal">· {film.year}</span>
+        </Card.Title>
+        <Card.Text className="text-secondary mb-0">{film.description}</Card.Text>
+      </Card.Body>
+    </Card>
+  );
+}
+
+function Films() {
+  return (
+    <Container>
+      <PageHeader
+        eyebrow="Films"
+        title="Films & video"
+        subtitle="Short films and video work. New projects land on the ALK FILMS channel."
+      />
+      <Row className="g-4">
+        {films.map((film) => (
+          <Col sm={6} lg={4} key={film.videoId}>
+            <FilmCard film={film} />
+          </Col>
+        ))}
+      </Row>
+      <div className="text-center mt-5">
+        <a
+          className="btn btn-ghost px-4"
+          href={filmsChannel}
+          target="_blank"
+          rel="noreferrer"
+        >
+          View the ALK FILMS channel
+        </a>
+      </div>
+    </Container>
+  );
+}
+
+export default Films;
